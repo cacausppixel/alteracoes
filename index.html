@@ -257,6 +257,37 @@
     </header>
 
     <div class="max-w-6xl mx-auto px-6 py-8">
+        <!-- Hero Section with Pets -->
+        <div class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card bg-white rounded-lg shadow-xl p-6 text-center">
+                <div class="mb-4 overflow-hidden rounded-lg h-48">
+                    <img id="dogImg" src="https://images.unsplash.com/photo-1633722715463-d30628519a30?w=400&h=300&fit=crop" alt="Cachorro" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">🐕 Cães</h3>
+                <p class="text-gray-600 text-sm">Leais, afetuosos e cheios de energia! Conheça nossos cães disponíveis para adoção.</p>
+                <button onclick="loadRandomDog()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">
+                    Mais cães →
+                </button>
+            </div>
+
+            <div class="card bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg shadow-xl p-6 text-center text-white transform md:scale-105">
+                <div class="text-5xl mb-4 animate-bounce">🐾</div>
+                <h2 class="text-2xl font-bold mb-2">PetSocial</h2>
+                <p class="text-white/90">A melhor plataforma para conectar pets e tutores!</p>
+            </div>
+
+            <div class="card bg-white rounded-lg shadow-xl p-6 text-center">
+                <div class="mb-4 overflow-hidden rounded-lg h-48">
+                    <img id="catImg" src="https://images.unsplash.com/photo-1574158622682-e40ad4b0b495?w=400&h=300&fit=crop" alt="Gato" class="w-full h-full object-cover hover:scale-110 transition-transform duration-300">
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">🐱 Gatos</h3>
+                <p class="text-gray-600 text-sm">Independentes, graciosos e apaixonantes! Encontre seu gato perfeito.</p>
+                <button onclick="loadRandomCat()" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold">
+                    Mais gatos →
+                </button>
+            </div>
+        </div>
+
         <!-- Filters -->
         <div class="mb-8 flex flex-wrap gap-3 animate-fadeIn">
             <button onclick="filterComments('all')" class="filter-btn bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold shadow-lg">
@@ -461,6 +492,34 @@
             `;
             document.body.appendChild(notif);
             setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Load random dog image
+        async function loadRandomDog() {
+            try {
+                const response = await fetch('https://dog.ceo/api/breeds/image/random');
+                const data = await response.json();
+                if (data.status === 'success') {
+                    document.getElementById('dogImg').src = data.message;
+                    showNotification('🐕 Nova foto de cachorro carregada!');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar imagem de cachorro:', error);
+            }
+        }
+
+        // Load random cat image
+        async function loadRandomCat() {
+            try {
+                const response = await fetch('https://api.thecatapi.com/v1/images/search?limit=1');
+                const data = await response.json();
+                if (data.length > 0) {
+                    document.getElementById('catImg').src = data[0].url;
+                    showNotification('🐱 Nova foto de gato carregada!');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar imagem de gato:', error);
+            }
         }
 
         // Add CSS for notification animations
